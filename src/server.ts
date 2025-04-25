@@ -14,7 +14,6 @@ export const createServer = async () => {
   });
 
   // Aquí se registrarán los recursos, herramientas y prompts
-
   return server;
 };
 
