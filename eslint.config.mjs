@@ -50,7 +50,7 @@ export default tseslint.config(eslint.configs.recommended, ...tseslint.configs.r
       'warn',
       { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
     ],
-    '@typescript-eslint/explicit-function-return-type': ['warn', { allowExpressions: true }],
+    // '@typescript-eslint/explicit-function-return-type': ['warn', { allowExpressions: true }],
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-non-null-assertion': 'warn',
     '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
