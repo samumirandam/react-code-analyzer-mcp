@@ -1,13 +1,23 @@
 {
   "name": "react-code-analyzer-mcp",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Servidor MCP para análisis estático de código React/TypeScript",
+  "main": "build/index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "ts-node --esm src/index.ts",
+    "lint": "eslint src/**/*.ts --fix",
+    "test": "jest",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\""
   },
+  "bin": {
+    "react-code-analyzer": "./build/index.js"
+  },
+  "files": [
+    "build"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
