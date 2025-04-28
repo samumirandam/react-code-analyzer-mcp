@@ -1,6 +1,6 @@
 {
   "name": "react-code-analyzer-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Servidor MCP para análisis estático de código React/TypeScript",
   "main": "build/index.js",
   "type": "module",
