@@ -1,18 +1,21 @@
 # React Code Analyzer MCP
 
-Un servidor MCP especializado en análisis estático de código para proyectos React/TypeScript.
+Un servidor MCP (Model Context Protocol) especializado en análisis estático de código para proyectos React/TypeScript, diseñado para integrarse con Claude Desktop y proporcionar análisis avanzados de código.
 
 ## Características
 
-- **Detector de código no utilizado y dependencias innecesarias**
-- **Identificador de anti-patrones específicos de React**
-- **Analizador de estructura de proyectos y cohesión de componentes**
-- **Validador de estándares de código personalizados**
+- **Análisis de código no utilizado**: Identifica dependencias innecesarias, archivos y exportaciones no utilizadas
+- **Detección de anti-patrones de React**: Identifica prácticas problemáticas como actualizaciones de estado anidadas y usos incorrectos de hooks
+- **Análisis de estructura de proyectos**: Evalúa la organización de directorios y detecta dependencias circulares
+- **Evaluación de cohesión de componentes**: Analiza la calidad y mantenibilidad de componentes React
+- **Validación de estándares de código**: Verifica el cumplimiento de buenas prácticas de código mediante ESLint
 
 ## Instalación
 
+No es necesario instalar la herramienta globalmente, puedes ejecutarla directamente mediante npx:
+
 ```bash
-npm install -g react-code-analyzer-mcp
+npx react-code-analyzer-mcp
 ```
 
 ## Configuración con Claude Desktop
@@ -27,7 +30,10 @@ npm install -g react-code-analyzer-mcp
 {
   "mcpServers": {
     "react-analyzer": {
-      "command": "react-code-analyzer-mcp"
+      "command": "npx",
+      "args": [
+        "react-code-analyzer-mcp"
+      ]
     }
   }
 }
@@ -35,41 +41,65 @@ npm install -g react-code-analyzer-mcp
 
 ## Uso con Claude
 
-1. Inicia Claude Desktop
-2. Puedes usar los siguientes prompts para analizar tus proyectos:
+Una vez configurado, puedes utilizar Claude Desktop para analizar proyectos React con este servidor MCP.
 
 ### Análisis Completo
+
 ```
-Por favor, analiza mi proyecto React en /ruta/a/mi/proyecto utilizando las herramientas disponibles.
+Por favor, realiza un análisis completo del proyecto React en /ruta/a/mi/proyecto utilizando las herramientas disponibles.
 ```
 
 ### Refactorización de Componentes
+
 ```
-Revisa el componente en /ruta/a/mi/proyecto/src/components/MiComponente.tsx y sugiere mejoras.
+Revisa el componente en /ruta/a/mi/proyecto/src/components/MiComponente.tsx y sugiere mejoras para su refactorización.
 ```
 
 ### Optimización de Dependencias
+
 ```
-Ayúdame a optimizar las dependencias en mi proyecto /ruta/a/mi/proyecto.
+Ayúdame a optimizar las dependencias en mi proyecto /ruta/a/mi/proyecto, identificando paquetes innecesarios y alternativas más ligeras.
 ```
 
 ## Herramientas Disponibles
 
-- `analyze-unused-code`: Detecta código no utilizado y dependencias innecesarias
-- `analyze-react-anti-patterns`: Identifica anti-patrones en React
-- `analyze-project-structure`: Analiza la estructura del proyecto
-- `validate-code-standards`: Valida estándares de código personalizados
+El servidor proporciona las siguientes herramientas que Claude puede usar para analizar tu código:
+
+- **analyze-unused-code**: Detecta código no utilizado, dependencias innecesarias y exportaciones sin usar
+- **analyze-react-anti-patterns**: Identifica patrones problemáticos en el código React como updates anidados y hooks mal implementados
+- **analyze-project-structure**: Analiza la estructura del proyecto, identifica dependencias circulares y evalúa la cohesión de componentes
+- **validate-code-standards**: Valida el cumplimiento de estándares de código usando ESLint con reglas personalizables
 
 ## Prompts Predefinidos
 
-- `full-code-analysis`: Análisis completo de código
-- `component-refactoring`: Sugerencias para refactorizar componentes
-- `dependency-optimization`: Análisis y optimización de dependencias
+El servidor incluye los siguientes prompts predeterminados para facilitar el análisis:
+
+- **full-code-analysis**: Realiza un análisis completo del código, incluyendo código no utilizado, anti-patrones, estructura y estándares
+- **component-refactoring**: Proporciona sugerencias específicas para refactorizar un componente React
+- **dependency-optimization**: Analiza las dependencias del proyecto y sugiere optimizaciones para mejorar rendimiento y mantenibilidad
+
+## Recursos
+
+Los recursos disponibles para Claude incluyen:
+
+- **project-file**: Acceso a archivos específicos del proyecto
+- **project-structure**: Obtención de la estructura completa del proyecto
+- **package-json**: Acceso al archivo package.json del proyecto
+
+## Requisitos del Sistema
+
+- Node.js 18 o superior
+- Proyecto React/TypeScript con estructura estándar
+- Claude Desktop correctamente configurado
 
 ## Contribuciones
 
-Las contribuciones son bienvenidas. Por favor, crea un issue o un pull request.
+Las contribuciones son bienvenidas. Por favor, crea un issue o un pull request con tus propuestas de mejora.
+
+## Agradecimientos
+
+Agradecimiento especial a [midudev](https://github.com/midudev) por su excelente curso sobre integración con Model Context Protocol. Si quieres aprender más sobre MCP, visita su [Curso Intensivo MCP](https://midu.dev/curso/intensivo-mcp).
 
 ## Licencia
 
-MIT
+Este proyecto está bajo la licencia MIT.
