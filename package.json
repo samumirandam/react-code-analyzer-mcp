@@ -13,7 +13,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\""
   },
   "bin": {
-    "react-code-analyzer": "./build/index.js"
+    "react-code-analyzer": "build/index.js"
   },
   "files": [
     "build"
