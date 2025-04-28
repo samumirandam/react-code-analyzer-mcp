@@ -10,6 +10,11 @@ export const createServer = async () => {
   const server = new McpServer({
     name: 'React Code Analyzer',
     version: '1.0.0',
+    capabilities: {
+      resources: { listChanged: true },
+      tools: { listChanged: true },
+      prompts: { listChanged: true },
+    },
   });
 
   // Registrar recursos, herramientas y prompts
@@ -24,21 +29,39 @@ export const createServer = async () => {
 export const startServer = async (server: McpServer) => {
   console.error('Iniciando servidor React Code Analyzer MCP...');
   const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error(
-    'Servidor React Code Analyzer MCP iniciado con éxito y listo para recibir solicitudes.',
-  );
 
-  // Manejar cierre limpio
-  process.on('SIGINT', async () => {
-    console.error('Cerrando servidor MCP...');
-    await server.close();
-    process.exit(0);
-  });
+  try {
+    await server.connect(transport);
+    console.error(
+      'Servidor React Code Analyzer MCP iniciado con éxito y listo para recibir solicitudes.',
+    );
 
-  process.on('SIGTERM', async () => {
-    console.error('Cerrando servidor MCP...');
-    await server.close();
-    process.exit(0);
-  });
+    // Manejar cierre limpio
+    const handleShutdown = async () => {
+      console.error('Cerrando servidor MCP...');
+      try {
+        await server.close();
+        console.error('Servidor MCP cerrado con éxito.');
+      } catch (error) {
+        console.error('Error al cerrar el servidor MCP:', error);
+      }
+      process.exit(0);
+    };
+
+    process.on('SIGINT', handleShutdown);
+    process.on('SIGTERM', handleShutdown);
+
+    // También manejar eventos de error en el transporte
+    transport.onerror = error => {
+      console.error('Error en el transporte MCP:', error);
+    };
+
+    // Manejar cierre de conexión
+    transport.onclose = () => {
+      console.error('Conexión MCP cerrada.');
+    };
+  } catch (error) {
+    console.error('Error al conectar el servidor MCP:', error);
+    throw error;
+  }
 };

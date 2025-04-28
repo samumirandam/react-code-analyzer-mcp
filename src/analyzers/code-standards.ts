@@ -19,36 +19,14 @@ export interface CodeStandardsConfig {
 
 export async function validateCodeStandards(
   projectPath: string,
-  // config?: CodeStandardsConfig,
+  config?: CodeStandardsConfig,
 ): Promise<CodeStandardViolation[]> {
   console.error(`Validando estándares de código en: ${projectPath}`);
 
-  // Configuración por defecto de ESLint para React/TypeScript
-  // const defaultConfig = {
-  //   parser: '@typescript-eslint/parser',
-  //   plugins: ['@typescript-eslint', 'react', 'react-hooks'],
-  //   extends: [
-  //     'eslint:recommended',
-  //     'plugin:@typescript-eslint/recommended',
-  //     'plugin:react/recommended',
-  //     'plugin:react-hooks/recommended',
-  //   ],
-  //   rules: {
-  //     'react/prop-types': 'off',
-  //     'react/react-in-jsx-scope': 'off',
-  //     'react-hooks/rules-of-hooks': 'error',
-  //     'react-hooks/exhaustive-deps': 'warn',
-  //     '@typescript-eslint/explicit-function-return-type': 'off',
-  //     '@typescript-eslint/no-explicit-any': 'warn',
-  //     ...(config?.rules || {}),
-  //   },
-  // };
-
-  // Crear instancia de ESLint
+  // Crear instancia de ESLint usando la configuración del proyecto
   const eslint = new ESLint({
-    // baseConfig: defaultConfig,
-    // useEslintrc: false,
-    // extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    overrideConfig: config?.rules ? { rules: config.rules } : undefined,
+    cwd: projectPath,
   });
 
   // Encontrar archivos a analizar
@@ -77,7 +55,12 @@ export async function validateCodeStandards(
     }
   }
 
-  await scanDirectory(path.join(projectPath, 'src'));
+  try {
+    await scanDirectory(path.join(projectPath, 'src'));
+  } catch (error) {
+    console.error(`Error escaneando directorio: ${error}`);
+    return [];
+  }
 
   // Ejecutar ESLint en los archivos encontrados
   const results = await eslint.lintFiles(filesToLint);

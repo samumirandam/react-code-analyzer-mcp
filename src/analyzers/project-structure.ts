@@ -68,18 +68,13 @@ export async function analyzeProjectStructure(
 
   const circularDependencies = madgeResult.circular();
 
-  // Analizar cohesión de componentes (simulado)
-  // En una implementación real, este sería un análisis más sofisticado
+  // Analizar cohesión de componentes
   const componentCohesionResults: ComponentCohesionResult[] = [];
 
-  // Este es un placeholder para la lógica real
   const componentFiles = await findComponentFiles(projectPath);
   for (const file of componentFiles) {
-    componentCohesionResults.push({
-      component: file,
-      cohesionScore: Math.floor(Math.random() * 100), // Simulado
-      issues: [],
-    });
+    const cohesionResult = await analyzeCohesion(file, projectPath);
+    componentCohesionResults.push(cohesionResult);
   }
 
   return {
@@ -114,4 +109,56 @@ async function findComponentFiles(projectPath: string): Promise<string[]> {
 
   await scanDirectory(projectPath);
   return componentFiles;
+}
+
+async function analyzeCohesion(
+  componentFile: string,
+  projectPath: string,
+): Promise<ComponentCohesionResult> {
+  const fullPath = path.join(projectPath, componentFile);
+  let cohesionScore = 70; // Valor base
+  const issues: string[] = [];
+
+  try {
+    const content = await fs.readFile(fullPath, 'utf-8');
+
+    // Evaluar cohesión basada en heurísticas simples
+
+    // 1. Verificar si el componente es demasiado largo
+    const lines = content.split('\n').length;
+    if (lines > 300) {
+      cohesionScore -= 20;
+      issues.push('Componente demasiado largo (más de 300 líneas)');
+    } else if (lines > 200) {
+      cohesionScore -= 10;
+      issues.push('Componente largo (más de 200 líneas)');
+    }
+
+    // 2. Verificar si hay demasiados hooks
+    const hookMatches = content.match(/use[A-Z][a-zA-Z]*/g) || [];
+    const uniqueHooks = new Set(hookMatches);
+    if (uniqueHooks.size > 7) {
+      cohesionScore -= 15;
+      issues.push(`Demasiados hooks diferentes (${uniqueHooks.size})`);
+    }
+
+    // 3. Verificar si hay muchos handlers de eventos
+    const handlerMatches = content.match(/handle[A-Z][a-zA-Z]*/g) || [];
+    if (handlerMatches.length > 10) {
+      cohesionScore -= 15;
+      issues.push(`Muchos handlers de eventos (${handlerMatches.length})`);
+    }
+
+    // Asegurar que la puntuación esté entre 0 y 100
+    cohesionScore = Math.max(0, Math.min(100, cohesionScore));
+  } catch (error) {
+    cohesionScore = 50;
+    issues.push(`Error al analizar el archivo: ${error}`);
+  }
+
+  return {
+    component: componentFile,
+    cohesionScore,
+    issues,
+  };
 }

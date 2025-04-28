@@ -1,6 +1,5 @@
-import { promises as fs } from 'fs';
 import * as path from 'path';
-import { Node, Project, SyntaxKind } from 'ts-morph';
+import { Project, SyntaxKind } from 'ts-morph';
 
 export interface ReactAntiPattern {
   type: string;
@@ -38,13 +37,23 @@ export async function findReactAntiPatterns(projectPath: string): Promise<ReactA
     for (const call of functionCalls) {
       const expression = call.getExpression().getText();
 
-      // Detectar setState en callback
-      if (expression.includes('setState') || expression.includes('useState')) {
+      // Detectar setState en callback o dentro de otro setState/useState
+      if (
+        expression.includes('setState') ||
+        (expression.includes('set') && /set[A-Z]/.test(expression))
+      ) {
+        // Verificar si está dentro de otro setState o useState
         const ancestors = call.getAncestors();
         for (const ancestor of ancestors) {
           if (ancestor.getKind() === SyntaxKind.CallExpression) {
-            const ancestorCall = ancestor.getText();
-            if (ancestorCall.includes('setState') || ancestorCall.includes('useState')) {
+            const ancestorExpression = ancestor.getChildAtIndex(0)?.getText();
+
+            // Verificar si es una actualización de estado (setState o setAlgo de useState)
+            if (
+              ancestorExpression &&
+              (ancestorExpression.includes('setState') ||
+                (ancestorExpression.includes('set') && /set[A-Z]/.test(ancestorExpression)))
+            ) {
               const position = call.getStart();
               const lineAndColumn = sourceFile.getLineAndColumnAtPos(position);
 
@@ -59,6 +68,7 @@ export async function findReactAntiPatterns(projectPath: string): Promise<ReactA
                 suggestion:
                   'Combina las actualizaciones de estado o usa useEffect para manejar actualizaciones secuenciales.',
               });
+              break; // Evitar duplicados
             }
           }
         }
@@ -85,6 +95,5 @@ export async function findReactAntiPatterns(projectPath: string): Promise<ReactA
       }
     }
   }
-
   return antiPatterns;
 }
