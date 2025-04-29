@@ -2,7 +2,7 @@
 import { createServer, startServer } from './server.js';
 
 async function main() {
-  console.error('React Code Analyzer MCP v1.0.2');
+  console.error('React Code Analyzer MCP v1.0.3');
   console.error('--------------------------------');
 
   try {

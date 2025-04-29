@@ -1,6 +1,6 @@
 {
   "name": "react-code-analyzer-mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Servidor MCP para análisis estático de código React/TypeScript",
   "main": "build/index.js",
   "type": "module",
@@ -31,7 +31,7 @@
   ],
   "author": "samumirandam",
   "license": "MIT",
-  "packageManager": "pnpm@10.9.0",
+  "packageManager": "pnpm@10.10.0",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
     "@typescript-eslint/eslint-plugin": "^8.31.0",
