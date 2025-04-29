@@ -9,7 +9,7 @@ import { registerTools } from './tools/index.js';
 export const createServer = async () => {
   const server = new McpServer({
     name: 'React Code Analyzer',
-    version: '1.0.1',
+    version: '1.0.2',
     capabilities: {
       resources: { listChanged: true },
       tools: { listChanged: true },

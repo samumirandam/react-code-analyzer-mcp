@@ -1,26 +1,36 @@
 {
   "name": "react-code-analyzer-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Servidor MCP para análisis estático de código React/TypeScript",
   "main": "build/index.js",
   "type": "module",
+  "bin": {
+    "react-code-analyzer-mcp": "build/index.js"
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && chmod +x build/index.js",
+    "prepare": "npm run build",
     "start": "node build/index.js",
     "dev": "node --loader ts-node/esm src/index.ts",
     "lint": "eslint src/**/*.ts --fix",
     "test": "jest",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\""
   },
-  "bin": {
-    "react-code-analyzer": "build/index.js"
-  },
   "files": [
     "build"
   ],
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "code-analysis",
+    "mcp",
+    "claude"
+  ],
+  "author": "samumirandam",
+  "license": "MIT",
   "packageManager": "pnpm@10.9.0",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
