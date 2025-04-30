@@ -12,11 +12,23 @@ Un servidor MCP (Model Context Protocol) especializado en análisis estático de
 
 ## Instalación
 
-No es necesario instalar la herramienta globalmente, puedes ejecutarla directamente mediante npx:
+Es necesario instalar la herramienta globalmente para su correcto funcionamiento:
 
 ```bash
-npx react-code-analyzer-mcp
+npm install -g react-code-analyzer-mcp
 ```
+
+O si prefieres usar yarn:
+
+```bash
+yarn global add react-code-analyzer-mcp
+```
+
+Después de la instalación global, puedes verificar que se ha instalado correctamente con:
+
+```bash
+react-code-analyzer-mcp --version
+``` 
 
 ## Configuración con Claude Desktop
 
