@@ -1,5 +1,9 @@
 # React Code Analyzer MCP
 
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+
 Un servidor MCP (Model Context Protocol) especializado en análisis estático de código para proyectos React/TypeScript, diseñado para integrarse con Claude Desktop y proporcionar análisis avanzados de código.
 
 ## Características
